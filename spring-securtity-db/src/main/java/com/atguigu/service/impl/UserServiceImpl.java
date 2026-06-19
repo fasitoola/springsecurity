@@ -1,7 +1,9 @@
 package com.atguigu.service.impl;
 
+import com.atguigu.entity.TPermission;
 import com.atguigu.entity.TRole;
 import com.atguigu.entity.TUser;
+import com.atguigu.mapper.TPermissionMapper;
 import com.atguigu.mapper.TRoleMapper;
 import com.atguigu.mapper.TUserMapper;
 import com.atguigu.service.UserService;
@@ -28,6 +30,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TRoleMapper tRoleMapper;
 
+    @Autowired
+    private TPermissionMapper tPermissionMapper;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -39,6 +44,9 @@ public class UserServiceImpl implements UserService {
 
         List<TRole> tRoles = tRoleMapper.selectRolesByUserId(user.getId());
         user.setTRoles(tRoles);
+
+        List<TPermission> tPermissions = tPermissionMapper.selectByUserId(user.getId());
+        user.setTPermissions(tPermissions);
 
         return user;
     }

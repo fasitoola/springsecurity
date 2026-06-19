@@ -97,6 +97,12 @@ public class TUser implements UserDetails,  Serializable {
      */
     private List<TRole> tRoles;
 
+    /**
+     * 用户权限
+     */
+    private List<TPermission> tPermissions;
+
+
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -104,6 +110,9 @@ public class TUser implements UserDetails,  Serializable {
         ArrayList<GrantedAuthority> authorities = new ArrayList<>();
         for (TRole tRole : this.tRoles) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + tRole.getRole()));
+        }
+        for (TPermission tPermission : this.tPermissions) {
+            authorities.add(new SimpleGrantedAuthority(tPermission.getCode()));
         }
         return authorities;
     }

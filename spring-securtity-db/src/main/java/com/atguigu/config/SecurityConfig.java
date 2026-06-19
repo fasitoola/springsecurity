@@ -4,6 +4,7 @@ import com.atguigu.filter.CaptchaFilter;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @Date: 2026/6/11 22:11
  */
 @Configuration
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     @Resource
@@ -31,7 +33,8 @@ public class SecurityConfig {
         return httpSecurity
                 .formLogin((formLogin) -> {
                     formLogin.loginPage("/toLogin") //配置登录页面
-                            .loginProcessingUrl("/user/login"); //配置登录处理的url，也就是登录请求提交到哪个地址上
+                            //配置登录处理的url，也就是登录请求提交到哪个地址上
+                            .loginProcessingUrl("/user/login");
                 })
                 .authorizeHttpRequests((authorizeHttpRequests) -> {
                     authorizeHttpRequests.requestMatchers("/toLogin", "/common/captcha").permitAll()///toLogin允许未登录就可以访问
